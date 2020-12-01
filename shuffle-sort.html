@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<title>Shuffle and Sort</title>
+	<script>
+		function drag(event) {
+			event.dataTransfer.setData("prevId", event.target.id);
+			let parentId = document.getElementById(event.target.id).parentNode.id;
+			event.dataTransfer.setData("prevParentId", parentId);
+		}
+		function drop(event) {
+			event.preventDefault();
+			let clone = event.target.cloneNode(true);
+			let prevId = event.dataTransfer.getData("prevId");
+			let prevParent = event.dataTransfer.getData("prevParentId");
+			let parent = document.getElementById(event.target.id).parentNode.id;
+			let nodeList = document.getElementById(prevParent).childNodes;
+			let dragIndex;
+			for (let i = 0; i < nodeList.length; i++) {
+				if (nodeList[i].id == prevId) {
+					dragIndex = i;
+				}
+			}
+			document.getElementById(parent).replaceChild(document.getElementById(prevId), event.target);
+			document.getElementById(prevParent).insertBefore(clone, document.getElementById(prevParent).childNodes[dragIndex]);
+		}
+		function allowDrop(ev) {
+			ev.preventDefault();
+		}
+
+		function sort() {
+			let mediaMatchCSS = window.matchMedia("(max-width: 400px)");
+			let nodeList1 = document.getElementById("first-container").childNodes;
+			let nodeList2 = document.getElementById("second-container").childNodes;
+			let nodeList3 = document.getElementById("third-container").childNodes;
+			let counter = 1;
+			for (let i = 0; i < nodeList1.length; i++) {
+				if (nodeList1[i].id) {
+					nodeList1[i].innerHTML = counter;
+					nodeList1[i].id = 'drag' + counter;
+					counter += 1;
+				}
+			}
+			for (let i = 0; i < nodeList2.length; i++) {
+				if (nodeList2[i].id) {
+					nodeList2[i].innerHTML = counter;
+					nodeList2[i].id = 'drag' + counter;
+					counter += 1;
+				}
+			}
+			for (let i = 0; i < nodeList3.length; i++) {
+				if (nodeList3[i].id) {
+					nodeList3[i].innerHTML = counter;
+					nodeList3[i].id = 'drag' + counter;
+					counter += 1;
+				}
+			}
+		}
+		function shuffle() {
+			let nodeList1 = document.getElementById("first-container").childNodes;
+			let nodeList2 = document.getElementById("second-container").childNodes;
+			let nodeList3 = document.getElementById("third-container").childNodes;
+			for (let i = 0; i < nodeList1.length; i++) {
+				if (nodeList1[i].id) {
+					nodeList1[i].draggable = "true";
+				}
+			}
+			for (let i = 0; i < nodeList2.length; i++) {
+				if (nodeList2[i].id) {
+					nodeList2[i].draggable = "true";
+				}
+			}
+			for (let i = 0; i < nodeList3.length; i++) {
+				if (nodeList3[i].id) {
+					nodeList3[i].draggable = "true";
+				}
+			}
+		} 
+	</script>
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+
+		#drag1,
+		#drag8 {
+			background-color: #6F98A8;
+		}
+
+		#drag2,
+		#drag4 {
+			background-color: #2B8EAD;
+		}
+
+		#drag3,
+		#drag5,
+		#drag9 {
+			background-color: #2F454E;
+		}
+
+		#drag6,
+		#drag7 {
+			background-color: #BFBFBF;
+		}
+
+
+		header {
+			text-align: center;
+			color: #000;
+			font-weight: 600;
+			font-size: 16px;
+			margin-top: 10px;
+		}
+
+		.flex-container {
+			display: flex;
+			flex-direction: row;
+			font-family: monospace;
+		}
+
+		.flex-container>div {
+			flex: 30%;
+			line-height: 2.5;
+			text-align: center;
+			color: #ffffff;
+			font-size: 65px;
+			cursor: pointer;
+		}
+
+		.first-div {
+			width: 70%;
+		}
+
+		footer {
+			text-align: center;
+			font-style: italic;
+			font-size: 12px;
+			margin-top: 12px;
+		}
+
+		section {
+			margin-top: 10px;
+			border-top: 3px solid #d2d2d2;
+			display: flex;
+		}
+
+		.second-div {
+			width: 30%;
+			text-align: center;
+		}
+
+		button {
+			display: block;
+			margin-left: 32%;
+			width: 50%;
+			line-height: 2.5;
+			margin-top: 20px;
+			border: none;
+			background-color: #43afd1;
+			color: #ffffff;
+			font-size: 14px;
+			font-family: monospace;
+			border-radius: 6px;
+			box-shadow: 0 3px #2B8EAD;
+			cursor: pointer;
+		}
+
+		button:focus {
+			outline: none;
+			cursor: pointer;
+		}
+
+		button:active {
+			background-color: #43afd1;
+			box-shadow: 0 3px #2B8EAD;
+			transform: translateY(2px);
+		}
+
+		@media(max-width: 400px) {
+			.flex-container {
+				flex-direction: column;
+			}
+
+			.flex-container>div {
+				flex: 100%;
+				line-height: 3;
+				text-align: center;
+				color: #000;
+				font-size: 17px;
+				cursor: pointer;
+				margin-bottom: 4px;
+			}
+
+			#drag1,
+			#drag8 {
+				background-color: #eeeeee;
+				border-left: 8px solid #6F98A8;
+			}
+
+			#drag2,
+			#drag4 {
+				background-color: #eeeeee;
+				border-left: 8px solid #2B8EAD;
+			}
+
+			#drag3,
+			#drag5,
+			#drag9 {
+				background-color: #eeeeee;
+				border-left: 8px solid #2F454E;
+			}
+
+			#drag6,
+			#drag7 {
+				background-color: #eeeeee;
+				border-left: 8px solid #BFBFBF;
+			}
+
+			header {
+				color: #fff;
+				background: #000;
+				margin-top: 0px;
+				padding-top: 0px;
+				padding: 12px;
+			}
+
+			body {
+				margin: 0px;
+			}
+
+			section {
+				border: none;
+				flex-direction: column-reverse;
+				margin-top: 0px;
+			}
+
+			button {
+				width: 24%;
+				line-height: 2.5;
+				border: none;
+				background-color: #43afd1;
+				color: #ffffff;
+				font-size: 14px;
+				font-family: monospace;
+				border-radius: 6px;
+				box-shadow: 0 3px #2B8EAD;
+				cursor: pointer;
+				display: inline;
+				margin: auto !important;
+			}
+
+			.first-div,
+			.second-div {
+				width: 90%;
+				margin: 15px 15px 0px 15px;
+			}
+
+		}
+	</style>
+</head>
+
+<body>
+	<header>Shuffle and Sort</header>
+	<section>
+		<div class="first-div">
+			<div class="flex-container" id="first-container">
+				<div id="drag1" draggable="false" ondragstart="drag(event)" ondrop="drop(event)"
+					ondragover="allowDrop(event)" class="flex-item">1
+				</div>
+				<div id="drag2" draggable="false" ondragstart="drag(event)" ondrop="drop(event)"
+					ondragover="allowDrop(event)" class="flex-item">2
+				</div>
+				<div id="drag3" draggable="false" ondragstart="drag(event)" ondrop="drop(event)"
+					ondragover="allowDrop(event)" class="flex-item">3
+				</div>
+			</div>
+			<div class="flex-container" id="second-container">
+				<div id="drag4" draggable="false" ondragstart="drag(event)" ondrop="drop(event)"
+					ondragover="allowDrop(event)" class="flex-item">4
+				</div>
+				<div id="drag5" draggable="false" ondragstart="drag(event)" ondrop="drop(event)"
+					ondragover="allowDrop(event)" class="flex-item">5
+				</div>
+				<div id="drag6" draggable="false" ondragstart="drag(event)" ondrop="drop(event)"
+					ondragover="allowDrop(event)" class="flex-item">6
+				</div>
+			</div>
+			<div class="flex-container" id="third-container">
+				<div id="drag7" draggable="false" ondragstart="drag(event)" ondrop="drop(event)"
+					ondragover="allowDrop(event)" class="flex-item">7
+				</div>
+				<div id="drag8" draggable="false" ondragstart="drag(event)" ondrop="drop(event)"
+					ondragover="allowDrop(event)" class="flex-item">8
+				</div>
+				<div id="drag9" draggable="false" ondragstart="drag(event)" ondrop="drop(event)"
+					ondragover="allowDrop(event)" class="flex-item">9
+				</div>
+			</div>
+		</div>
+		<div class="second-div">
+			<button onclick="shuffle()">SHUFFLE</button>
+			<button style="margin-top: 15px;" onclick="sort()">SORT</button>
+		</div>
+	</section>
+	<footer>Shuffle and sort by <strong>Arundhati Mohapatra</strong></footer>
+</body>
+
+</html>
